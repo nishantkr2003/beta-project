@@ -54,18 +54,18 @@ Create a `.env` file in the `server` directory based on the following template:
 ```env
 PORT=5000
 NODE_ENV=development
-MONGO_URI=mongodb://localhost:27017/Finance
-JWT_SECRET=your_jwt_secret_key
+MONGO_URI=mongodb://localhost:27017/investment_platform
+JWT_SECRET=super_secure_jwt_secret
 JWT_EXPIRES_IN=7d
 
-EMAIL_FROM=noreplyfusionfund@gmail.com
+EMAIL_FROM=your_email@gmail.com
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=465
-EMAIL_USER=noreplyfusionfund@gmail.com
-EMAIL_PASS=your_app_password  # App Password from Gmail
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_gmail_app_password
 
 FRONTEND_URL=http://localhost:3000
-ADMIN_SIGNUP_KEY=secure_admin_signup_key
+ADMIN_SIGNUP_KEY=your_admin_signup_key
 ```
 
 > 💡 **Note:** Use [Gmail App Passwords](https://myaccount.google.com/apppasswords) for `EMAIL_PASS`. Enable 2FA in your Gmail account first.
