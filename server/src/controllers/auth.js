@@ -19,6 +19,7 @@ export const signup = async (req, res, role) => {
     // Check for validation errors
     console.log(req.body);
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,

@@ -1,41 +1,50 @@
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 // Create nodemailer transporter
+// const transporter = nodemailer.createTransport({
+//   host: process.env.EMAIL_HOST,
+//   port: process.env.EMAIL_PORT,
+//   secure: process.env.EMAIL_PORT === '465',
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS
+//   }
+// });
+
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: process.env.EMAIL_PORT === '465',
+  service: "gmail",
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 // Optional: Verify transporter config on startup
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('❌ Email config error:', error);
-  } else {
-    console.log('✅ Ready to send emails');
-  }
-});
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.error("❌ Email config error:", error);
+//   } else {
+//     console.log("✅ Ready to send emails");
+//   }
+// });
 
 // Send verification email
 export const sendVerificationEmail = async (email, code) => {
   try {
     // In development, log the verification code to console
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       console.log(`Verification code for ${email}: ${code}`);
       return true;
     }
-    
+
     const mailOptions = {
       from: process.env.EMAIL_FROM,
       to: email,
-      subject: 'Email Verification',
+      subject: "Email Verification",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h2 style="color: #1E40AF; text-align: center;">Email Verification</h2>
@@ -48,14 +57,14 @@ export const sendVerificationEmail = async (email, code) => {
           <hr style="border-top: 1px solid #E5E7EB; margin: 20px 0;">
           <p style="font-size: 12px; color: #6B7280; text-align: center;">© ${new Date().getFullYear()} Investment Platform</p>
         </div>
-      `
+      `,
     };
-    
+
     await transporter.sendMail(mailOptions);
     return true;
   } catch (error) {
     console.error("❌Error sending verification email:", error);
-    throw new Error('Failed to send verification email');
+    throw new Error("Failed to send verification email");
   }
 };
 
@@ -63,15 +72,15 @@ export const sendVerificationEmail = async (email, code) => {
 export const sendPasswordResetEmail = async (email, resetUrl) => {
   try {
     // In development, log the reset URL to console
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       console.log(`Password reset URL for ${email}: ${resetUrl}`);
       return true;
     }
-    
+
     const mailOptions = {
       from: process.env.EMAIL_FROM,
       to: email,
-      subject: 'Password Reset',
+      subject: "Password Reset",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h2 style="color: #1E40AF; text-align: center;">Password Reset</h2>
@@ -84,13 +93,13 @@ export const sendPasswordResetEmail = async (email, resetUrl) => {
           <hr style="border-top: 1px solid #E5E7EB; margin: 20px 0;">
           <p style="font-size: 12px; color: #6B7280; text-align: center;">© ${new Date().getFullYear()} Investment Platform</p>
         </div>
-      `
+      `,
     };
-    
+
     await transporter.sendMail(mailOptions);
     return true;
   } catch (error) {
-    console.error('Error sending password reset email:', error);
-    throw new Error('Failed to send password reset email');
+    console.error("Error sending password reset email:", error);
+    throw new Error("Failed to send password reset email");
   }
 };
